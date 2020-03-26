@@ -1,0 +1,56 @@
+# Files: 
+# Author：jiang liu
+# Date ：2020/3/26 9:59
+# Tool ：PyCharm
+
+
+class CarFactory:
+    __obj = None  # 类属性
+    __init_flag = True  # 私有化标记
+
+    def create_car(self, brand):
+        if brand == "奔驰":
+            return Benz()
+        elif brand == "宝马":
+            return BMW()
+        elif brand == "比亚迪":
+            return BYD()
+        else:
+            return "未知品牌，无法创建"
+
+    def __new__(cls, *args, **kwargs):
+        if cls.__obj is None:
+            cls.__obj = object.__new__(cls)
+
+        return cls.__obj
+
+    def __init__(self):
+        if CarFactory.__init_flag:
+            print("init CarFactory......")
+            CarFactory.__init_flag = False
+
+
+class Benz:
+    pass
+
+
+class BMW:
+    pass
+
+
+class BYD:
+    pass
+
+
+factory = CarFactory()
+
+c1 = factory.create_car('奔驰')
+c2 = factory.create_car('宝马')
+c3 = factory.create_car('比亚迪')
+print(c1)
+print(c2)
+print(c3)
+
+factory2 = CarFactory()
+print(factory)
+print(factory2)
